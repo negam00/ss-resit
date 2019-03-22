@@ -1,6 +1,7 @@
 package nl.hva.ict.ss.compression;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class HuffmanCompression {
@@ -19,8 +20,18 @@ public class HuffmanCompression {
     /**
      * Returns the compression ratio assuming that every characters in the text uses 8 bits.
      * @return the compression ratio.
-     */
+     */ // todo aanbegonnen
     public double getCompressionRatio() {
+
+        Node root = getCompressionTree();
+        int ogBits = root.getWeight() * 8;
+        int total = 0;
+
+        ArrayList<String> node = new ArrayList<>();
+//        ArrayList<Node> weightChar
+
+
+
         return 0.0;
     }
 
