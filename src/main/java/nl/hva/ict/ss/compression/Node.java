@@ -3,8 +3,9 @@ package nl.hva.ict.ss.compression;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
-public class Node implements Comparable<Node> {
+public class Node implements Comparable<Node>, Serializable {
     private Node left;
     private Node right;
     private int weight;
@@ -21,48 +22,41 @@ public class Node implements Comparable<Node> {
         this.right = right;
     }
 
-    //todo gemaakt maar ja
-    void getOutput(ObjectOutputStream outputStream){
-        try {
-            if (null == character){
-                outputStream.writeObject(null);
-                // todo even uitleg comment hier tussen zetten
-                left.getOutput(outputStream);
-                right.getOutput(outputStream);
-            } else {
-                outputStream.writeObject(weight);
-                outputStream.writeObject(character);
-            }
-        } catch (Exception e){
-            e.printStackTrace();
+    public static Node read(ObjectInputStream input) throws IOException, ClassNotFoundException {
+        Object temp = input.readObject();
+        if (temp == null){
+            return new Node(read(input),read(input));
+        }
+        else {
+            Node newNode = new Node((int) temp, (char)input.readObject());
+            return newNode;
         }
     }
 
-    // todo gedaan maar misschien nog aanpassen
     public void write(ObjectOutputStream output) throws IOException {
-        getOutput(output);
-
+        createOutput(output);
         output.flush();
         output.close();
-
     }
-
-    //todo gedaan maar nog even beetje namen aanpassen
-    public static Node read(ObjectInputStream input) throws IOException, ClassNotFoundException {
-        Object tmp = input.readObject();
-        if (null == tmp) {
-            return new Node(read(input), read(input));
-        } else {
-            Node node = new Node((int)tmp, (char) input.readObject());
-            return node;
+    void createOutput(ObjectOutputStream output) throws IOException {
+        try {
+            if (character == null){
+                output.writeObject(null);
+                left.createOutput(output);
+                right.createOutput(output);
+            }
+            else {
+                output.writeObject(weight);
+                output.writeObject(character);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-
     }
-
 
     @Override
     public int compareTo(Node o) {
-        return 0;
+        return weight - o.getWeight();
     }
 
     public Node getLeft() {
