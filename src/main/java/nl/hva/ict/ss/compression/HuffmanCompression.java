@@ -104,7 +104,7 @@ public class HuffmanCompression {
     }
 
 
-    //todo aanpassen Yasmine
+    //todo aanpassen Yasmine test
     ArrayList<Node> createNodeList() {
         ArrayList<Node> nodelist = new ArrayList<>();
         int maxAscii = 128;
