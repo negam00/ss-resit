@@ -11,7 +11,7 @@ public class ExtendedHuffmanComressionTest extends HuffmanCompressionTest {
 //
 //    @Test
 //    public void checkNodeValueDistribution() {
-//        compressor = new HuffmanCompression("aaabbbbccccccccccc"); // 3*codeListBinaryValueTest, 4*b, 11*c
+//        compressor = new HuffmanCompression("aaabbbbccccccccccc"); // 3*valueTest, 4*b, 11*c
 //        Node root = compressor.getCompressionTree();
 //        assertEquals(18, root.getWeight());
 //        assertEquals(3, root.getLeft().getLeft().getWeight());
@@ -40,22 +40,28 @@ public class ExtendedHuffmanComressionTest extends HuffmanCompressionTest {
 
 
     @Test
-    public void codeListBinaryValueTest() {
+    public void valueTest() {
         compressor = new HuffmanCompression("potato");
+        Node node = compressor.getCompressionTree();
+        ArrayList<String> listTest = compressor.codeListBuilder(node, new StringBuilder());
+        System.out.print("Results: \n");
 
-        Node root = compressor.getCompressionTree();
-        System.out.println("READING FROM TREE");
-        ArrayList<String> testListHolder = compressor.codeListBuilder(root, new StringBuilder());
-
-        for (String n : compressor.codeListBuilder(root, new StringBuilder())) {
+        for (String n : compressor.codeListBuilder(node, new StringBuilder())) {
             System.out.println(n);
         }
 
-        System.out.println("codeListBinaryValueTest");
-        System.out.println("Index 0 = "+ testListHolder.get(0).substring(6));
-        System.out.println("Index 3 = "+ testListHolder.get(3).substring(6));
-        assertEquals(testListHolder.get(0).substring(6), "00");
-        assertEquals(testListHolder.get(3).substring(6), "11");
+        System.out.print("Binary Values: \n");
+        System.out.println("0 : "+ listTest.get(0).substring(6));
+        System.out.println("1 : "+ listTest.get(1).substring(6));
+        System.out.println("2 : "+ listTest.get(2).substring(6));
+        System.out.println("3 : "+ listTest.get(3).substring(6));
+
+
+        assertEquals(listTest.get(0).substring(6), "0");
+        assertEquals(listTest.get(1).substring(6), "100");
+        assertEquals(listTest.get(2).substring(6), "101");
+        assertEquals(listTest.get(3).substring(6), "11");
+
     }
 
 }
