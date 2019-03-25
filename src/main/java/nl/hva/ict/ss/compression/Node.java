@@ -22,7 +22,7 @@ public class Node implements Comparable<Node> {
     }
 
     //todo gemaakt maar ja
-    void getOutput(ObjectOutputStream outputStream){
+    private void getOutput(ObjectOutputStream outputStream){
         try {
             if (null == character){
                 outputStream.writeObject(null);
@@ -41,10 +41,8 @@ public class Node implements Comparable<Node> {
     // todo gedaan maar misschien nog aanpassen
     public void write(ObjectOutputStream output) throws IOException {
         getOutput(output);
-
         output.flush();
         output.close();
-
     }
 
     //todo gedaan maar nog even beetje namen aanpassen
@@ -62,7 +60,7 @@ public class Node implements Comparable<Node> {
 
     @Override
     public int compareTo(Node o) {
-        return 0;
+        return weight - o.getWeight();
     }
 
     public Node getLeft() {
