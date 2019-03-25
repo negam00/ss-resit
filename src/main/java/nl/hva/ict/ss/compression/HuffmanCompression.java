@@ -66,9 +66,15 @@ public class HuffmanCompression {
         int maxAscii = 128;
         int charsInText = 0;
         int letterCount[] = new int[maxAscii];
-        for (int i = 0; i < maxAscii; i++) {
-            letterCount[i] = 0;
-        }
+        int a=0;
+        //todo gemaakte verandering: for loop = while loop, int a=0;
+         while(a < maxAscii){
+             letterCount[a] = 0;
+             a++;
+         }
+
+
+
         for (int i = 0; i < text.length(); i++) {
             int currentChar = text.charAt(i);
             letterCount[currentChar]++;
@@ -124,11 +130,14 @@ public class HuffmanCompression {
 
 
     //todo
+    //todo gemaakte veranderingen: For loop = while loop, int i=0; boven aangemaakt.
     String[] getCodes() {
         ArrayList<String> nodeCodes = createCodeList(getCompressionTree(), new StringBuilder());
         String codes[] = new String[nodeCodes.size()];
-        for (int i = 0; i < nodeCodes.size(); i++) {
+        int i =0;
+        while(i < nodeCodes.size()){
             codes[i] = nodeCodes.get(i);
+            i++;
         }
         return codes;
     }
