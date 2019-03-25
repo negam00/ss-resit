@@ -66,6 +66,7 @@ public class HuffmanCompression {
         int maxAscii = 128;
         int charsInText = 0;
         int letterCount[] = new int[maxAscii];
+
         int a=0;
         //todo gemaakte verandering: for loop = while loop, int a=0;
          while(a < maxAscii){
@@ -73,36 +74,60 @@ public class HuffmanCompression {
              a++;
          }
 
+    //todo gemaakte verandering: for loop = while loop, int b=0, int currentChar, ;
+        int b =0;
+         int currentChar;
+         while(b < text.length()){
+            currentChar = text.charAt(b);
+             b++;
+             letterCount[currentChar]++;
+         }
 
 
-        for (int i = 0; i < text.length(); i++) {
-            int currentChar = text.charAt(i);
-            letterCount[currentChar]++;
-        }
-        for (int i = 0; i < maxAscii; i++) {
-            if (letterCount[i] > 0) {
-                ++charsInText;
+        //todo gemaakte verandering: for loop = while loop, int d=0 if(requisites omgedraaid qua volgorde). ;
+        int c = 0;
+        while (c < maxAscii) {
+            if(0 < letterCount[c] ){
+            ++charsInText;
             }
+            c++;
         }
-        for (Integer c = 0; c <= charsInText; c++) {
-            {
+
+
+
+
+
+            //todo while loop gemaakt
+        //todo: change names, change ifloop 2
+
+            for (int t = 0; t < maxAscii; t++) {
                 int biggestNumber = 0;
                 int biggestIndex = 0;
-                for (int i = 0; i < maxAscii; i++) {
-                    if (letterCount[i] > biggestNumber) {
-                        biggestIndex = i;
-                        biggestNumber = letterCount[i];
+                int r = 0;
+//                int g =0;
+                while(r < maxAscii){
+                    if (letterCount[r] > biggestNumber) {
+                        biggestIndex = r;
+                        biggestNumber = letterCount[r];
                     }
+                    r++;
                 }
-                if (biggestNumber > 0) {
+
+                 if (biggestNumber > 0) {
                     nodelist.add(new Node(letterCount[biggestIndex], (char) biggestIndex));
                     letterCount[biggestIndex] = 0;
                 }
             }
+
+
+            Collections.sort(nodelist, Collections.reverseOrder());
+            return nodelist;
+
         }
-        Collections.sort(nodelist, Collections.reverseOrder());
-        return nodelist;
-    }
+
+
+
+
 
 
     //todo
