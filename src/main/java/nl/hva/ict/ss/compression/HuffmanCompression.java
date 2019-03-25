@@ -43,48 +43,6 @@ public class HuffmanCompression {
         System.out.println("Shortened amount of bits: " + totalShortenedChar);
         return (double) totalShortenedChar / (double) originalBits;
     }
-
-    /**
-     * Returns a list with the character and the code that is used to encode it.
-     * The format per entry is: "'char' -> code"
-     * For "aba" this would result in: ["'b' -> 0", "'a' -> 1"]
-     * And for "cacbcac" this would result in: ["'b' -> 00", "'a' -> 01", "'c' -> 1"]
-     *
-     * @return the Huffman codes
-     */
-
-    String[] getCodes() {
-        ArrayList<String> nodeCodes = createCodeList(getCompressionTree(), new StringBuilder());
-        String codes[] = new String[nodeCodes.size()];
-        for (int i = 0; i < nodeCodes.size(); i++) {
-            codes[i] = nodeCodes.get(i);
-        }
-        return codes;
-    }
-
-    ArrayList<String> createCodeList(Node node, StringBuilder str) {
-        ArrayList<String> addingList = new ArrayList<>();
-        StringBuilder leftString = new StringBuilder(str.toString());
-        StringBuilder rightString = new StringBuilder(str.toString());
-        if (node.getCharacter() != null) {
-            addingList.add("'" + node.getCharacter() + "'" + "-> " + str);
-        } else {
-            for (String s : createCodeList(node.getLeft(), leftString.append("0"))) {
-                addingList.add(s);
-            }
-            for (String s : createCodeList(node.getRight(), rightString.append("1"))) {
-                addingList.add(s);
-            }
-        }
-        return addingList;
-    }
-
-    /**
-     * Returns the root of the compression tree.
-     *
-     * @return the root of the compression tree.
-     */
-
     Node getCompressionTree() {
         ArrayList<Node> nodeList = createNodeList();
         while (nodeList.size() > 2) {
@@ -98,6 +56,10 @@ public class HuffmanCompression {
         Node root = new Node(nodeList.get(nodeList.size() - 1), nodeList.get(nodeList.size() - 2));
         return root;
     }
+
+
+
+    //todo mijn code begint hier
 
     ArrayList<Node> createNodeList() {
         ArrayList<Node> nodelist = new ArrayList<>();
@@ -137,4 +99,37 @@ public class HuffmanCompression {
     }
 
 
+    //todo
+
+    ArrayList<String> createCodeList(Node node, StringBuilder str) {
+        ArrayList<String> addingList = new ArrayList<>();
+        StringBuilder leftString = new StringBuilder(str.toString());
+        StringBuilder rightString = new StringBuilder(str.toString());
+        if (node.getCharacter() != null) {
+            addingList.add("'" + node.getCharacter() + "'" + "-> " + str);
+        } else {
+            for (String s : createCodeList(node.getLeft(), leftString.append("0"))) {
+                addingList.add(s);
+            }
+            for (String s : createCodeList(node.getRight(), rightString.append("1"))) {
+                addingList.add(s);
+            }
+        }
+        return addingList;
+    }
+
+
+
+
+
+
+    //todo
+    String[] getCodes() {
+        ArrayList<String> nodeCodes = createCodeList(getCompressionTree(), new StringBuilder());
+        String codes[] = new String[nodeCodes.size()];
+        for (int i = 0; i < nodeCodes.size(); i++) {
+            codes[i] = nodeCodes.get(i);
+        }
+        return codes;
+    }
 }
