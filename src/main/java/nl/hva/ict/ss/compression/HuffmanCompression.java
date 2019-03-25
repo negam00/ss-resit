@@ -62,15 +62,15 @@ public class HuffmanCompression {
     //todo mijn code begint hier
 
     ArrayList<Node> createNodeList() {
-        ArrayList<Node> nodelist = new ArrayList<>();
+        ArrayList<Node> listNode = new ArrayList<>();
         int maxAscii = 128;
         int charsInText = 0;
-        int letterCount[] = new int[maxAscii];
+        int countArr[] = new int[maxAscii];
 
         int a=0;
         //todo gemaakte verandering: for loop = while loop, int a=0;
          while(a < maxAscii){
-             letterCount[a] = 0;
+             countArr[a] = 0;
              a++;
          }
 
@@ -80,14 +80,14 @@ public class HuffmanCompression {
          while(b < text.length()){
             currentChar = text.charAt(b);
              b++;
-             letterCount[currentChar]++;
+             countArr[currentChar]++;
          }
 
 
         //todo gemaakte verandering: for loop = while loop, int d=0 if(requisites omgedraaid qua volgorde). ;
         int c = 0;
         while (c < maxAscii) {
-            if(0 < letterCount[c] ){
+            if(0 < countArr[c] ){
             ++charsInText;
             }
             c++;
@@ -97,32 +97,29 @@ public class HuffmanCompression {
 
 
 
-            //todo while loop gemaakt
-        //todo: change names, change ifloop 2
+            //todo alleen uiterste colelctions niet aangepast.
 
             for (int t = 0; t < maxAscii; t++) {
-                int biggestNumber = 0;
-                int biggestIndex = 0;
+                int maxNum = 0;
+                int maxPointer = 0;
                 int r = 0;
-//                int g =0;
+
                 while(r < maxAscii){
-                    if (letterCount[r] > biggestNumber) {
-                        biggestIndex = r;
-                        biggestNumber = letterCount[r];
+                    if (countArr[r] > maxNum) {
+                        maxPointer = r;
+                        maxNum = countArr[r];
                     }
                     r++;
                 }
-
-                 if (biggestNumber > 0) {
-                    nodelist.add(new Node(letterCount[biggestIndex], (char) biggestIndex));
-                    letterCount[biggestIndex] = 0;
+                 if (0 < maxNum) {
+                    listNode.add(new Node(countArr[maxPointer],
+                            (char) maxPointer));
+                    countArr[maxPointer] = 0;
                 }
             }
 
-
-            Collections.sort(nodelist, Collections.reverseOrder());
-            return nodelist;
-
+            Collections.sort(listNode, Collections.reverseOrder());
+            return listNode;
         }
 
 
