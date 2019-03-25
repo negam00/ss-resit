@@ -29,7 +29,7 @@ public class HuffmanCompression {
         int originalBits = root.getWeight() * 8;// original would be 8 bits per char = total occurrences *8
         int totalShortenedChar = 0;
 
-        ArrayList<String> nodeCodes = createCodeList(root, new StringBuilder());
+        ArrayList<String> nodeCodes = codeListBuilder(root, new StringBuilder());
         ArrayList<Node> charsWithWeight = nodeListBuilder();
 
         for (Node node : charsWithWeight) {
@@ -43,6 +43,7 @@ public class HuffmanCompression {
         System.out.println("Shortened amount of bits: " + totalShortenedChar);
         return (double) totalShortenedChar / (double) originalBits;
     }
+
     Node getCompressionTree() {
         ArrayList<Node> nodeList = nodeListBuilder();
         while (nodeList.size() > 2) {
@@ -58,7 +59,6 @@ public class HuffmanCompression {
     }
 
 
-
     //todo mijn code begint hier
 
     ArrayList<Node> nodeListBuilder() {
@@ -70,88 +70,83 @@ public class HuffmanCompression {
         //TODO countarr is al aangepast
         int countArr[] = new int[maxAscii];
 
-         int a=0;
-         while(a < maxAscii){
-             countArr[a] = 0;
-             a++;
-         }
+        int a = 0;
+        while (a < maxAscii) {
+            countArr[a] = 0;
+            a++;
+        }
 
-         int b =0;
-         int charAt;
-         while(b < text.length()){
+        int b = 0;
+        int charAt;
+        while (b < text.length()) {
             charAt = text.charAt(b);
-             b++;
-             countArr[charAt]++;
-         }
+            b++;
+            countArr[charAt]++;
+        }
         int c = 0;
         while (c < maxAscii) {
-            if(0 < countArr[c] ){
-            ++charsInText;
+            if (0 < countArr[c]) {
+                ++charsInText;
             }
             c++;
         }
-            for (int t = 0; t < maxAscii; t++) {
-                int maxNum = 0;
-                int maxPointer = 0;
-                int r = 0;
+        for (int t = 0; t < maxAscii; t++) {
+            int maxNum = 0;
+            int maxPointer = 0;
+            int r = 0;
 
-                while(r < maxAscii){
-                    if (countArr[r] > maxNum) {
-                        maxPointer = r;
-                        maxNum = countArr[r];
-                    }
-                    r++;
+            while (r < maxAscii) {
+                if (countArr[r] > maxNum) {
+                    maxPointer = r;
+                    maxNum = countArr[r];
                 }
-                 if (0 < maxNum) {
-                    listNode.add(new Node(countArr[maxPointer],
-                            (char) maxPointer));
-                    countArr[maxPointer] = 0;
-                }
+                r++;
             }
-
-            listNode.sort(Collections.reverseOrder());
-            return listNode;
+            if (0 < maxNum) {
+                listNode.add(new Node(countArr[maxPointer],
+                        (char) maxPointer));
+                countArr[maxPointer] = 0;
+            }
         }
 
+        listNode.sort(Collections.reverseOrder());
+        return listNode;
+    }
 
 
+    ArrayList<String> codeListBuilder(Node node, StringBuilder str) {
+        StringBuilder buildRight = new StringBuilder(str.toString());
+        StringBuilder buildLeft = new StringBuilder(str.toString() );
+        ArrayList<String> buildList = new ArrayList<>();
 
-
-
-    //todo
-
-    ArrayList<String> createCodeList(Node node, StringBuilder str) {
-        ArrayList<String> addingList = new ArrayList<>();
-        StringBuilder leftString = new StringBuilder(str.toString());
-        StringBuilder rightString = new StringBuilder(str.toString());
-        if (node.getCharacter() != null) {
-            addingList.add("'" + node.getCharacter() + "'" + "-> " + str);
+        if (null != node.getCharacter()) {
+            buildList.add("'" + node.getCharacter() + "'" + "-> " + str);
         } else {
-            for (String s : createCodeList(node.getLeft(), leftString.append("0"))) {
-                addingList.add(s);
+
+            for (String temp : codeListBuilder(node.getLeft(), buildLeft.append("0"))) {
+                buildList.add(temp);
             }
-            for (String s : createCodeList(node.getRight(), rightString.append("1"))) {
-                addingList.add(s);
+
+            for (String temp : codeListBuilder(node.getRight(), buildRight.append("1"))) {
+                buildList.add(temp);
             }
         }
-        return addingList;
+        return buildList;
     }
 
 
 
-
-
-
-    //todo
-    //todo gemaakte veranderingen: For loop = while loop, int i=0; boven aangemaakt.
-    String[] getCodes() {
-        ArrayList<String> nodeCodes = createCodeList(getCompressionTree(), new StringBuilder());
-        String codes[] = new String[nodeCodes.size()];
-        int i =0;
-        while(i < nodeCodes.size()){
-            codes[i] = nodeCodes.get(i);
-            i++;
+        //todo
+        //todo gemaakte veranderingen: For loop = while loop, int i=0; boven aangemaakt.
+        String[] getCodes () {
+            ArrayList<String> CharNodeHolder = codeListBuilder(getCompressionTree(),
+                    new StringBuilder());
+            String codeString[] = new String[CharNodeHolder.size()];
+            int i = 0;
+            while (i < CharNodeHolder.size()) {
+                codeString[i] = CharNodeHolder.get(i);
+                i++;
+            }
+            return codeString;
         }
-        return codes;
     }
-}

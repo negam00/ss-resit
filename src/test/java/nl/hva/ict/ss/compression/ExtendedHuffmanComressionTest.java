@@ -36,9 +36,9 @@ public class ExtendedHuffmanComressionTest extends HuffmanCompressionTest {
         compressor = new HuffmanCompression("aabbccddd"); // 3*codeListBinaryValueTest, 4*b, 7*c
         Node root = compressor.getCompressionTree();
         System.out.println("READING FROM TREE");
-        ArrayList<String> testListHolder = compressor.createCodeList(root, new StringBuilder());
+        ArrayList<String> testListHolder = compressor.codeListBuilder(root, new StringBuilder());
 
-        for (String n : compressor.createCodeList(root, new StringBuilder())) {
+        for (String n : compressor.codeListBuilder(root, new StringBuilder())) {
             System.out.println(n);
         }
 
