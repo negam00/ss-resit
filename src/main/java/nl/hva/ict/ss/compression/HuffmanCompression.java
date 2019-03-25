@@ -63,11 +63,9 @@ public class HuffmanCompression {
 
     ArrayList<Node> nodeListBuilder() {
         ArrayList<Node> listNode = new ArrayList<>();
-        //todo hadden we al charsintext zoja veraneder naam geld ook voor maxAscii
 
         int maxAscii = 128;
-        int charsInText = 0;
-        //TODO countarr is al aangepast
+        int occurence = 0;
         int countArr[] = new int[maxAscii];
 
         int a = 0;
@@ -86,7 +84,7 @@ public class HuffmanCompression {
         int c = 0;
         while (c < maxAscii) {
             if (0 < countArr[c]) {
-                ++charsInText;
+                ++occurence;
             }
             c++;
         }
@@ -108,7 +106,6 @@ public class HuffmanCompression {
                 countArr[maxPointer] = 0;
             }
         }
-
         listNode.sort(Collections.reverseOrder());
         return listNode;
     }
@@ -122,29 +119,28 @@ public class HuffmanCompression {
         if (null != node.getCharacter()) {
             buildList.add("'" + node.getCharacter() + "'" + "-> " + str);
         } else {
-
-            for (String temp : codeListBuilder(node.getLeft(), buildLeft.append("0"))) {
-                buildList.add(temp);
-            }
-
-            for (String temp : codeListBuilder(node.getRight(), buildRight.append("1"))) {
-                buildList.add(temp);
-            }
+            buildList.addAll(codeListBuilder(node.getLeft(), buildLeft.append("0")));
+            buildList.addAll(codeListBuilder(node.getRight(), buildRight.append("1")));
         }
         return buildList;
     }
 
 
 
-        //todo
-        //todo gemaakte veranderingen: For loop = while loop, int i=0; boven aangemaakt.
+    /**
+     * Returns a list with the character and the code that is used to encode it.
+     * The format per entry is: "'char' -> code"
+     * For "aba" this would result in: ["'b' -> 0", "'a' -> 1"]
+     * And for "cacbcac" this would result in: ["'b' -> 00", "'a' -> 01", "'c' -> 1"]
+     * @return the Huffman codes
+     */
         String[] getCodes () {
-            ArrayList<String> CharNodeHolder = codeListBuilder(getCompressionTree(),
+            ArrayList<String> charNodeHolder = codeListBuilder(getCompressionTree(),
                     new StringBuilder());
-            String codeString[] = new String[CharNodeHolder.size()];
+            String codeString[] = new String[charNodeHolder.size()];
             int i = 0;
-            while (i < CharNodeHolder.size()) {
-                codeString[i] = CharNodeHolder.get(i);
+            while (i < charNodeHolder.size()) {
+                codeString[i] = charNodeHolder.get(i);
                 i++;
             }
             return codeString;
