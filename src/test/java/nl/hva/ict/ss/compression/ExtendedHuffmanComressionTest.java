@@ -7,46 +7,18 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 
 public class ExtendedHuffmanComressionTest extends HuffmanCompressionTest {
-    HuffmanCompression compressor;
-//
-//    @Test
-//    public void checkNodeValueDistribution() {
-//        compressor = new HuffmanCompression("aaabbbbccccccccccc"); // 3*valueTest, 4*b, 11*c
-//        Node root = compressor.getCompressionTree();
-//        assertEquals(18, root.getWeight());
-//        assertEquals(3, root.getLeft().getLeft().getWeight());
-//        assertEquals(4, root.getLeft().getRight().getWeight());
-//        assertEquals(11, root.getRight().getWeight());
-//    }
-//
-//    @Test //Checks whether it makes sufficient nodes for each leaf and whether middle nodes are empty
-//    public void evenLeavesMeansDoubleNodes() {
-//        compressor = new HuffmanCompression("aabbccddeeffgghh"); // 2-2 2-2 2-2 2-2
-//        Node root = compressor.getCompressionTree();
-//        assertEquals(16, root.getWeight());
-//        assertEquals(2, root.getLeft().getLeft().getLeft().getWeight());
-//        assertEquals(2, root.getLeft().getRight().getRight().getWeight());
-//        assertEquals(2, root.getRight().getRight().getRight().getWeight());
-//        assertEquals("isNull", null, root.getRight().getCharacter());
-//        assertEquals("isNull", null, root.getRight().getRight().getCharacter());
-//    }
-//
-//
-//    @Test
-//    public void testTree(){
-//
-//
-//    }
+    HuffmanCompression huffmanCompression;
+
 
 
     @Test
     public void valueTest() {
-        compressor = new HuffmanCompression("potato");
-        Node node = compressor.getCompressionTree();
-        ArrayList<String> listTest = compressor.codeListBuilder(node, new StringBuilder());
+        huffmanCompression = new HuffmanCompression("potato");
+        Node node = huffmanCompression.getCompressionTree();
+        ArrayList<String> listTest = huffmanCompression.codeListBuilder(node, new StringBuilder());
         System.out.print("Results: \n");
 
-        for (String n : compressor.codeListBuilder(node, new StringBuilder())) {
+        for (String n : huffmanCompression.codeListBuilder(node, new StringBuilder())) {
             System.out.println(n);
         }
 
@@ -63,5 +35,41 @@ public class ExtendedHuffmanComressionTest extends HuffmanCompressionTest {
         assertEquals(listTest.get(3).substring(6), "11");
 
     }
+
+//todo ask what this does.
+    @Test
+    public void distributionTest(){
+        huffmanCompression = new HuffmanCompression("spudow");
+        Node node = huffmanCompression.getCompressionTree();
+
+        System.out.println("SPUDOW: " + node.getWeight());
+        System.out.println("SPUDOW: " + node.getLeft().getWeight());
+        System.out.println("SPUDOW: " + node.getLeft().getLeft().getWeight());
+        System.out.println("SPUDOW: " + node.getLeft().getRight().getWeight());
+
+    }
+
+
+//
+//    @Test //Checks whether it makes sufficient nodes for each leaf and whether middle nodes are empty
+//    public void evenLeavesMeansDoubleNodes() {
+//        huffmanCompression = new HuffmanCompression("aabbccddeeffgghh"); // 2-2 2-2 2-2 2-2
+//        Node root = huffmanCompression.getCompressionTree();
+//        assertEquals(16, root.getWeight());
+//        assertEquals(2, root.getLeft().getLeft().getLeft().getWeight());
+//        assertEquals(2, root.getLeft().getRight().getRight().getWeight());
+//        assertEquals(2, root.getRight().getRight().getRight().getWeight());
+//        assertEquals("isNull", null, root.getRight().getCharacter());
+//        assertEquals("isNull", null, root.getRight().getRight().getCharacter());
+//    }
+//
+//
+//    @Test
+//    public void testTree(){
+//
+//
+//    }
+
+
 
 }
