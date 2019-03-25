@@ -30,7 +30,7 @@ public class HuffmanCompression {
         int totalShortenedChar = 0;
 
         ArrayList<String> nodeCodes = createCodeList(root, new StringBuilder());
-        ArrayList<Node> charsWithWeight = createNodeList();
+        ArrayList<Node> charsWithWeight = nodeListBuilder();
 
         for (Node node : charsWithWeight) {
             for (String nodeCodeString : nodeCodes) {
@@ -44,7 +44,7 @@ public class HuffmanCompression {
         return (double) totalShortenedChar / (double) originalBits;
     }
     Node getCompressionTree() {
-        ArrayList<Node> nodeList = createNodeList();
+        ArrayList<Node> nodeList = nodeListBuilder();
         while (nodeList.size() > 2) {
             Node node1 = nodeList.get(nodeList.size() - 1);
             nodeList.remove(nodeList.get(nodeList.size() - 1));
@@ -61,30 +61,28 @@ public class HuffmanCompression {
 
     //todo mijn code begint hier
 
-    ArrayList<Node> createNodeList() {
+    ArrayList<Node> nodeListBuilder() {
         ArrayList<Node> listNode = new ArrayList<>();
+        //todo hadden we al charsintext zoja veraneder naam geld ook voor maxAscii
+
         int maxAscii = 128;
         int charsInText = 0;
+        //TODO countarr is al aangepast
         int countArr[] = new int[maxAscii];
 
-        int a=0;
-        //todo gemaakte verandering: for loop = while loop, int a=0;
+         int a=0;
          while(a < maxAscii){
              countArr[a] = 0;
              a++;
          }
 
-    //todo gemaakte verandering: for loop = while loop, int b=0, int currentChar, ;
-        int b =0;
-         int currentChar;
+         int b =0;
+         int charAt;
          while(b < text.length()){
-            currentChar = text.charAt(b);
+            charAt = text.charAt(b);
              b++;
-             countArr[currentChar]++;
+             countArr[charAt]++;
          }
-
-
-        //todo gemaakte verandering: for loop = while loop, int d=0 if(requisites omgedraaid qua volgorde). ;
         int c = 0;
         while (c < maxAscii) {
             if(0 < countArr[c] ){
@@ -92,13 +90,6 @@ public class HuffmanCompression {
             }
             c++;
         }
-
-
-
-
-
-            //todo alleen uiterste colelctions niet aangepast.
-
             for (int t = 0; t < maxAscii; t++) {
                 int maxNum = 0;
                 int maxPointer = 0;
@@ -118,7 +109,7 @@ public class HuffmanCompression {
                 }
             }
 
-            Collections.sort(listNode, Collections.reverseOrder());
+            listNode.sort(Collections.reverseOrder());
             return listNode;
         }
 
