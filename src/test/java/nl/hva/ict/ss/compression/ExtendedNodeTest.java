@@ -10,8 +10,7 @@ import static org.junit.Assert.assertNull;
 public class ExtendedNodeTest extends NodeTest {
 
     @Test
-    public void OutputStreamIsPreOrder() throws IOException {
-        System.out.println("test");
+    public void readOrder() throws IOException {
         compressor = new HuffmanCompression("ddyyyyyttt");
         Node root = compressor.getCompressionTree();
         try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(("huffman-tree.bin")))) {
