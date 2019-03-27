@@ -29,8 +29,8 @@ public class HuffmanCompression {
         int originalBits = root.getWeight() * 8;// original would be 8 bits per char = total occurrences *8
         int totalShortenedChar = 0;
 
-        ArrayList<String> nodeCodes = createCodeList(root, new StringBuilder());
-        ArrayList<Node> charsWithWeight = createNodeList();
+        ArrayList<String> nodeCodes = codeListBuilder(root, new StringBuilder());
+        ArrayList<Node> charsWithWeight = nodeListBuilder();
 
         for (Node node : charsWithWeight) {
             for (String nodeCodeString : nodeCodes) {
@@ -44,49 +44,8 @@ public class HuffmanCompression {
         return (double) totalShortenedChar / (double) originalBits;
     }
 
-    /**
-     * Returns a list with the character and the code that is used to encode it.
-     * The format per entry is: "'char' -> code"
-     * For "aba" this would result in: ["'b' -> 0", "'a' -> 1"]
-     * And for "cacbcac" this would result in: ["'b' -> 00", "'a' -> 01", "'c' -> 1"]
-     *
-     * @return the Huffman codes
-     */
-
-    String[] getCodes() {
-        ArrayList<String> nodeCodes = createCodeList(getCompressionTree(), new StringBuilder());
-        String codes[] = new String[nodeCodes.size()];
-        for (int i = 0; i < nodeCodes.size(); i++) {
-            codes[i] = nodeCodes.get(i);
-        }
-        return codes;
-    }
-
-    ArrayList<String> createCodeList(Node node, StringBuilder str) {
-        ArrayList<String> addingList = new ArrayList<>();
-        StringBuilder leftString = new StringBuilder(str.toString());
-        StringBuilder rightString = new StringBuilder(str.toString());
-        if (node.getCharacter() != null) {
-            addingList.add("'" + node.getCharacter() + "'" + "-> " + str);
-        } else {
-            for (String s : createCodeList(node.getLeft(), leftString.append("0"))) {
-                addingList.add(s);
-            }
-            for (String s : createCodeList(node.getRight(), rightString.append("1"))) {
-                addingList.add(s);
-            }
-        }
-        return addingList;
-    }
-
-    /**
-     * Returns the root of the compression tree.
-     *
-     * @return the root of the compression tree.
-     */
-
     Node getCompressionTree() {
-        ArrayList<Node> nodeList = createNodeList();
+        ArrayList<Node> nodeList = nodeListBuilder();
         while (nodeList.size() > 2) {
             Node node1 = nodeList.get(nodeList.size() - 1);
             nodeList.remove(nodeList.get(nodeList.size() - 1));
@@ -99,42 +58,91 @@ public class HuffmanCompression {
         return root;
     }
 
-    ArrayList<Node> createNodeList() {
-        ArrayList<Node> nodelist = new ArrayList<>();
+
+    //todo mijn code begint hier
+
+    ArrayList<Node> nodeListBuilder() {
+        ArrayList<Node> listNode = new ArrayList<>();
+
         int maxAscii = 128;
-        int charsInText = 0;
-        int letterCount[] = new int[maxAscii];
-        for (int i = 0; i < maxAscii; i++) {
-            letterCount[i] = 0;
+        int occurence = 0;
+        int countArr[] = new int[maxAscii];
+
+        int a = 0;
+        while (a < maxAscii) {
+            countArr[a] = 0;
+            a++;
         }
-        for (int i = 0; i < text.length(); i++) {
-            int currentChar = text.charAt(i);
-            letterCount[currentChar]++;
+
+        int b = 0;
+        int charAt;
+        while (b < text.length()) {
+            charAt = text.charAt(b);
+            b++;
+            countArr[charAt]++;
         }
-        for (int i = 0; i < maxAscii; i++) {
-            if (letterCount[i] > 0) {
-                ++charsInText;
+        int c = 0;
+        while (c < maxAscii) {
+            if (0 < countArr[c]) {
+                ++occurence;
+            }
+            c++;
+        }
+        for (int t = 0; t < maxAscii; t++) {
+            int maxNum = 0;
+            int maxPointer = 0;
+            int r = 0;
+
+            while (r < maxAscii) {
+                if (countArr[r] > maxNum) {
+                    maxPointer = r;
+                    maxNum = countArr[r];
+                }
+                r++;
+            }
+            if (0 < maxNum) {
+                listNode.add(new Node(countArr[maxPointer],
+                        (char) maxPointer));
+                countArr[maxPointer] = 0;
             }
         }
-        for (Integer c = 0; c <= charsInText; c++) {
-            {
-                int biggestNumber = 0;
-                int biggestIndex = 0;
-                for (int i = 0; i < maxAscii; i++) {
-                    if (letterCount[i] > biggestNumber) {
-                        biggestIndex = i;
-                        biggestNumber = letterCount[i];
-                    }
-                }
-                if (biggestNumber > 0) {
-                    nodelist.add(new Node(letterCount[biggestIndex], (char) biggestIndex));
-                    letterCount[biggestIndex] = 0;
-                }
-            }
-        }
-        Collections.sort(nodelist, Collections.reverseOrder());
-        return nodelist;
+        listNode.sort(Collections.reverseOrder());
+        return listNode;
     }
 
 
+    ArrayList<String> codeListBuilder(Node node, StringBuilder str) {
+        StringBuilder buildRight = new StringBuilder(str.toString());
+        StringBuilder buildLeft = new StringBuilder(str.toString() );
+        ArrayList<String> buildList = new ArrayList<>();
+
+        if (null != node.getCharacter()) {
+            buildList.add("'" + node.getCharacter() + "'" + "-> " + str);
+        } else {
+            buildList.addAll(codeListBuilder(node.getLeft(), buildLeft.append("0")));
+            buildList.addAll(codeListBuilder(node.getRight(), buildRight.append("1")));
+        }
+        return buildList;
+    }
+
+
+
+    /**
+     * Returns a list with the character and the code that is used to encode it.
+     * The format per entry is: "'char' -> code"
+     * For "aba" this would result in: ["'b' -> 0", "'a' -> 1"]
+     * And for "cacbcac" this would result in: ["'b' -> 00", "'a' -> 01", "'c' -> 1"]
+     * @return the Huffman codes
+     */
+    String[] getCodes () {
+        ArrayList<String> charNodeHolder = codeListBuilder(getCompressionTree(),
+                new StringBuilder());
+        String codeString[] = new String[charNodeHolder.size()];
+        int i = 0;
+        while (i < charNodeHolder.size()) {
+            codeString[i] = charNodeHolder.get(i);
+            i++;
+        }
+        return codeString;
+    }
 }
