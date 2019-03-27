@@ -9,11 +9,19 @@ import static org.junit.Assert.assertEquals;
 public class ExtendedHuffmanComressionTest extends HuffmanCompressionTest {
     HuffmanCompression huffmanCompression;
 
+    @Test
+    public void nodeWeightTest() {
+        compressor = new HuffmanCompression("ttoozzzzlll"); // 2*t, 4*z 3*l 2* o = 1+4+3+2= 11
+        Node root = compressor.getCompressionTree();
+        assertEquals(11, root.getWeight());
+        assertEquals(4, root.getLeft().getWeight());
+        assertEquals(7, root.getRight().getWeight());
+}
 
 
     @Test
     public void valueTest() {
-        huffmanCompression = new HuffmanCompression("potato");
+        huffmanCompression = new HuffmanCompression("ppotato");
         Node node = huffmanCompression.getCompressionTree();
         ArrayList<String> listTest = huffmanCompression.codeListBuilder(node, new StringBuilder());
         System.out.print("Results: \n");
@@ -29,25 +37,27 @@ public class ExtendedHuffmanComressionTest extends HuffmanCompressionTest {
         System.out.println("3 : "+ listTest.get(3).substring(6));
 
 
-        assertEquals(listTest.get(0).substring(6), "0");
-        assertEquals(listTest.get(1).substring(6), "100");
-        assertEquals(listTest.get(2).substring(6), "101");
+        assertEquals(listTest.get(0).substring(6), "00");
+        assertEquals(listTest.get(1).substring(6), "01");
+        assertEquals(listTest.get(2).substring(6), "10");
         assertEquals(listTest.get(3).substring(6), "11");
 
     }
 
-//todo ask what this does.
-    @Test
-    public void distributionTest(){
-        huffmanCompression = new HuffmanCompression("spudow");
-        Node node = huffmanCompression.getCompressionTree();
+//editing
 
-        System.out.println("SPUDOW: " + node.getWeight());
-        System.out.println("SPUDOW: " + node.getLeft().getWeight());
-        System.out.println("SPUDOW: " + node.getLeft().getLeft().getWeight());
-        System.out.println("SPUDOW: " + node.getLeft().getRight().getWeight());
-
-    }
+////todo ask what this does.
+//    @Test
+//    public void distributionTest(){
+//        huffmanCompression = new HuffmanCompression("spudow");
+//        Node node = huffmanCompression.getCompressionTree();
+//
+//        System.out.println("SPUDOW: " + node.getWeight());
+//        System.out.println("SPUDOW: " + node.getLeft().getWeight());
+//        System.out.println("SPUDOW: " + node.getLeft().getLeft().getWeight());
+//        System.out.println("SPUDOW: " + node.getLeft().getRight().getWeight());
+//
+//    }
 
 
 //

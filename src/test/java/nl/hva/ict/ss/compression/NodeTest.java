@@ -7,6 +7,8 @@ import java.io.*;
 import static org.junit.Assert.assertEquals;
 
 public class NodeTest {
+    HuffmanCompression compressor;
+
     @Test
     public void canReadWhatWasWritten() throws IOException, ClassNotFoundException {
 

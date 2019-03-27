@@ -64,12 +64,12 @@ public class HuffmanCompression {
     ArrayList<Node> nodeListBuilder() {
         ArrayList<Node> listNode = new ArrayList<>();
 
-        int maxAscii = 128;
+        int ascii = 128;
         int occurence = 0;
-        int countArr[] = new int[maxAscii];
+        int countArr[] = new int[ascii];
 
         int a = 0;
-        while (a < maxAscii) {
+        while (a < ascii) {
             countArr[a] = 0;
             a++;
         }
@@ -82,18 +82,18 @@ public class HuffmanCompression {
             countArr[charAt]++;
         }
         int c = 0;
-        while (c < maxAscii) {
+        while (c < ascii) {
             if (0 < countArr[c]) {
                 ++occurence;
             }
             c++;
         }
-        for (int t = 0; t < maxAscii; t++) {
+        for (int t = 0; t < ascii; t++) {
             int maxNum = 0;
             int maxPointer = 0;
             int r = 0;
 
-            while (r < maxAscii) {
+            while (r < ascii) {
                 if (countArr[r] > maxNum) {
                     maxPointer = r;
                     maxNum = countArr[r];
