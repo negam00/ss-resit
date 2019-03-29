@@ -11,10 +11,11 @@ public class ExtendedNodeTest extends NodeTest {
 
     @Test
     public void readOrder() throws IOException {
+        HuffmanCompression compressor;
         compressor = new HuffmanCompression("ddyyyyyttt");
         Node root = compressor.getCompressionTree();
         try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(("huffman-tree.bin")))) {
-            root.write(objectOutputStream);
+            root.output(objectOutputStream);
         }
         try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(("huffman-tree.bin")))) {
             assertNull(input.readObject()); //a

@@ -139,7 +139,7 @@ public class Huffman {
     }
 
 
-    // write bitstring-encoded trie to standard output
+    // output bitstring-encoded trie to standard output
     private static void writeTrie(Node x) {
         if (x.isLeaf()) {
             BinaryStdOut.write(true);
@@ -171,7 +171,7 @@ public class Huffman {
         // read in Huffman trie from input stream
         Node root = readTrie(); 
 
-        // number of bytes to write
+        // number of bytes to output
         int length = BinaryStdIn.readInt();
 
         // decode using the Huffman trie

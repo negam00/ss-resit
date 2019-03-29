@@ -25,51 +25,56 @@ public class HuffmanCompression {
      * @return the compression ratio.
      */
     public double getCompressionRatio() {
-        Node root = getCompressionTree();
-        int originalBits = root.getWeight() * 8;// original would be 8 bits per char = total occurrences *8
-        int totalShortenedChar = 0;
+        Node top = getCompressionTree();
 
-        ArrayList<String> nodeCodes = codeListBuilder(root, new StringBuilder());
-        ArrayList<Node> charsWithWeight = nodeListBuilder();
+        int total = 0;
+        int og = top.getWeight() * 8;
+        ArrayList<Node> cWeight = nodeListBuilder();
+        ArrayList<String> codes = codeListBuilder(top, new StringBuilder());
 
-        for (Node node : charsWithWeight) {
-            for (String nodeCodeString : nodeCodes) {
+        for (Node node : cWeight) {
+            //
+            for (String nodeCodeString : codes) {
+
                 if (nodeCodeString.charAt(1) == node.getCharacter()) {
-                    totalShortenedChar += node.getWeight() * (nodeCodeString.length() - 6);
+                    total += node.getWeight() * (nodeCodeString.length() - 6);
                 }
             }
         }
-        System.out.println("Original amount of bits: " + originalBits);
-        System.out.println("Shortened amount of bits: " + totalShortenedChar);
-        return (double) totalShortenedChar / (double) originalBits;
+        System.out.println("Bits before " + og + "\nBits after " + total);
+        return (double) total / (double) og;
     }
 
     Node getCompressionTree() {
-        ArrayList<Node> nodeList = nodeListBuilder();
-        while (nodeList.size() > 2) {
-            Node node1 = nodeList.get(nodeList.size() - 1);
-            nodeList.remove(nodeList.get(nodeList.size() - 1));
-            Node node2 = nodeList.get(nodeList.size() - 1);
-            nodeList.remove(nodeList.get(nodeList.size() - 1));
-            nodeList.add(new Node(node1, node2));
-            Collections.sort(nodeList, Collections.reverseOrder());
+        ArrayList<Node> nodes = nodeListBuilder();
+        while ( 2 <nodes.size()) {
+            //n1 is removed
+            Node n1 = nodes.get(nodes.size() - 1);
+            nodes.remove(nodes.get(nodes.size() - 1));
+            // n2 is removed
+            Node n2 = nodes.get(nodes.size() - 1);
+            nodes.remove(nodes.get(nodes.size() - 1));
+
+
+            //add the old nodes on new spot
+            nodes.add(new Node(n1, n2));
+            Collections.sort(nodes, Collections.reverseOrder());
         }
-        Node root = new Node(nodeList.get(nodeList.size() - 1), nodeList.get(nodeList.size() - 2));
-        return root;
+        Node top = new Node(nodes.get(nodes.size() - 1), nodes.get(nodes.size() - 2));
+        return top;
     }
 
 
-    //todo mijn code begint hier
 
     ArrayList<Node> nodeListBuilder() {
         ArrayList<Node> listNode = new ArrayList<>();
 
-        int maxAscii = 128;
+        int asc = 128;
         int occurence = 0;
-        int countArr[] = new int[maxAscii];
+        int countArr[] = new int[asc];
 
         int a = 0;
-        while (a < maxAscii) {
+        while (a < asc) {
             countArr[a] = 0;
             a++;
         }
@@ -82,18 +87,18 @@ public class HuffmanCompression {
             countArr[charAt]++;
         }
         int c = 0;
-        while (c < maxAscii) {
+        while (c < asc) {
             if (0 < countArr[c]) {
                 ++occurence;
             }
             c++;
         }
-        for (int t = 0; t < maxAscii; t++) {
+        for (int t = 0; t < asc; t++) {
             int maxNum = 0;
             int maxPointer = 0;
             int r = 0;
 
-            while (r < maxAscii) {
+            while (r < asc) {
                 if (countArr[r] > maxNum) {
                     maxPointer = r;
                     maxNum = countArr[r];

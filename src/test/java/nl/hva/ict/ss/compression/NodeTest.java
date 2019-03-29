@@ -12,7 +12,7 @@ public class NodeTest {
 
         try (ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(("huffman-tree.bin")))) {
             Node tree = new Node(new Node(1, 'b'), new Node(2, 'a'));
-            tree.write(output);
+            tree.output(output);
         }
 
         Node tree = null;

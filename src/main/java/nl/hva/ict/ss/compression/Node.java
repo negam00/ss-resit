@@ -21,15 +21,16 @@ public class Node implements Comparable<Node> {
         this.right = right;
     }
 
-    //todo gemaakt maar ja
     private void getOutput(ObjectOutputStream outputStream){
         try {
-            if (null == character){
+            if (null == character){ // check if there are any characters
                 outputStream.writeObject(null);
-                // todo even uitleg comment hier tussen zetten
+                // left and right receive weight and character
+
                 left.getOutput(outputStream);
                 right.getOutput(outputStream);
             } else {
+                // null node is given to outputstream
                 outputStream.writeObject(weight);
                 outputStream.writeObject(character);
             }
@@ -38,17 +39,17 @@ public class Node implements Comparable<Node> {
         }
     }
 
-    // todo gedaan maar misschien nog aanpassen
-    public void write(ObjectOutputStream output) throws IOException {
+    public void output(ObjectOutputStream output) throws IOException {
         getOutput(output);
+        // close the output
         output.flush();
         output.close();
     }
 
-    //todo gedaan maar nog even beetje namen aanpassen
     public static Node read(ObjectInputStream input) throws IOException, ClassNotFoundException {
         Object tmp = input.readObject();
         if (null == tmp) {
+            // check if data is null or not
             return new Node(read(input), read(input));
         } else {
             Node node = new Node((int)tmp, (char) input.readObject());
